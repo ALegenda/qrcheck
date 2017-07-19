@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<style>
+    table {
+        color: #333; /* Lighten up font color */
+        font-family: Helvetica, Arial, sans-serif; /* Nicer font */
+        width: 640px;
+        border-collapse:
+                collapse; border-spacing: 0;
+    }
+
+    td, th { border: 1px solid #CCC; height: 30px; } /* Make cells a bit taller */
+
+    th {
+        background: #F3F3F3; /* Light grey background */
+        font-weight: bold; /* Make sure they're bold */
+    }
+
+    td {
+        background: #FAFAFA; /* Lighter grey background */
+        text-align: center; /* Center our text */
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="customersCtrl">
+
+    <table>
+        <tr ng-repeat="x in result">
+            <td>Token : {{ x.token }}</td>
+            <td>
+                <table border="1" cellpadding="1" cellspacing="1">
+                    <tbody>
+                    <tr>
+                        <td>Total sum : {{ x.data.totalSum }}</td>
+                    </tr>
+                    <tr>
+                        <td>Date : {{ x.data.dateTime }}</td>
+                    </tr>
+                    <tr>
+                        <td>User : {{ x.data.user }}</td>
+                    </tr>
+                    <tr>
+                        <td>Fiscal document number : {{ x.data.fiscalDocumentNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td>Fiscal drive number : {{ x.data.fiscalDriveNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td>Fiscal sign : {{ x.data.fiscalSign }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td ng-repeat="item in x.data.items">
+                <table border="1" cellpadding="1" cellspacing="1">
+                    <tbody>
+                    <tr>
+                        <td>Item name : {{ item.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Price : {{ item.price }}</td>
+                    </tr>
+                    <tr>
+                        <td>Quantity : {{ item.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sum : {{ item.sum }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+
+        </tr>
+    </table>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('customersCtrl', function ($scope, $http)
+    {
+        $http.get("https://qrtests.herokuapp.com/api/gethistory")
+        .then(function (response) {$scope.result = response.data;});
+    });
+</script>
+
+</body>
+</html>
